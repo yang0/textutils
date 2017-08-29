@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/" >
+        <file>valleyutil.js</file>
+    </qresource>
+</RCC>

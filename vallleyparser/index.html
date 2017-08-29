@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title></title>
+	<script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+	<script src="qrc:///qtwebchannel/qwebchannel.js"></script>
+	<script src="qrc:///valleyutil.js"></script>
+	<style>
+		textarea{
+			width: 98%;
+			height: 120px;
+			padding: 5px;
+			margin: 5px;
+		}
+		#jieba_words{
+			width: 98%;
+			padding: 5px;
+			margin: 5px;
+		}
+
+		.bbutton{
+			background-color: #4CAF50;
+			font-size: 20px;
+		}
+		.bigButton{
+			background-color: #008CBA;
+			font-size: 25px;
+			margin: 30px;
+		}
+		#navbar{
+			text-align: center;
+		}
+		#navbar a{
+			margin: 10px;
+
+		}
+
+
+	</style>
+</head>
+<body>
+	<div id="navbar">
+		<a href="" onClick='prevEnd(); return false;'> |<< </a>
+		<a href="" onClick='prevPage(); return false;'> 上十条 </a>
+		<a href="" onClick='prev(); return false;'> 上一条 </a>
+
+		<span id="line_number"></span>
+
+		<a href="" onClick='next(); return false;'> 下一条 </a>
+		<a href="" onClick='nextPage(); return false;'> 下十条 </a>
+		<a href="" onClick='nextEnd(); return false;'> >>| </a>
+	</div>
+<p></p>
+	<span>
+		原句：
+	</span>
+	<span id="question">内容</span>
+<p></p>
+	<span>
+		分词后：
+	</span>
+	<span id="old_question">内容</span>
+
+	<p></p>
+
+	<span>
+		过滤后：
+	</span>
+	<span id="new_question">
+		内容 内容
+	</span>
+
+	<p></p>
+
+	<div>
+		新建分词词汇：
+	</div>
+	<div >
+		<input id="jieba_words" type="text" class="vField">
+		<div style="text-align:center">
+			<input type=button value=保存 onClick=saveDict() class="bbutton"></input>
+			 <a href="" onClick="stopDict(); return false;" style="color:gray; margin-left: 20px;">停用</a>
+			<a href="" onClick="removeGarbage(); return false;" style="color:gray; margin-left: 20px;">删除包含垃圾词汇的记录</a>
+		</div>
+	</div>
+
+	<p></p>
+
+	<div>
+		新建或者更新concepts：
+	</div>
+
+	<div >
+		<textarea id="concept_words"  class="vField" ></textarea>
+		<div style="text-align:center">
+			<input type=button value=保存 onClick=saveConcepts() class="bbutton"></input>
+		</div>
+	</div>
+
+	<p></p>
+
+	<div>
+		<input id="search_concept"  class="vField"></input>
+		<input type=button value=查询concept onClick=searchConcept() class="bbutton"></input>
+		<span id="concept_result"  class="vField">
+		</span>
+	</div>
+
+	<p></p>
+
+
+
+</body>
+</html>
