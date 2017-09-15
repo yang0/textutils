@@ -6,7 +6,7 @@ from jieba.analyse import ChineseAnalyzer
 import json
 from util import configutil, jsonutil, jiebautil
 from whoosh.query import *
-
+from whoosh.qparser import MultifieldParser
 
 
 class WhooshUtil():
@@ -60,14 +60,18 @@ class WhooshUtil():
         ix = open_dir(self.indexdir)
         searcher = ix.searcher()
 
-        qs = []
-        # 搜索的关键词都必须得出现，出现在哪个字段都行
-        for w in words:
-            qs.append(Or([Term(fn, w) for fn in self.fieldNames]))
-        myquery = And(qs)
+        # And[Or[Term(title: 'aa'), Term(content:'aa')], Or[Term(title: 'bb'), Term(content:'bb')]]
+        mparser = MultifieldParser(self.fieldNames, schema=self.schema)
+        q = mparser.parse(" and ".join(words))
 
-        # 检索标题或者内容中出现word的文档
-        results = searcher.search(myquery)
+        # qs = []
+        # # 搜索的关键词都必须得出现，出现在哪个字段都行
+        # for w in words:
+        #     qs.append(Or([Term(fn, w) for fn in self.fieldNames]))
+        # q = And(qs)
+
+        # 搜索第1页，每页20条
+        results = searcher.search_page(q, 1, pagelen=3)
         # results = searcher.find("title", u"文档")
 
         # 检索出来的第一个结果，数据格式为dict{'title':.., 'content':...}
@@ -83,6 +87,7 @@ class WhooshUtil():
         for r in results:
             doc = r.fields()
             print(doc.values())
+            print("bm25分数： %f" % r.score)
             # for field in self.fieldNames:
             #     print(r.highlights(field))
 

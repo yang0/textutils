@@ -109,13 +109,16 @@ def search(words):
     :return:
     """
     results = jsonutil.iterJsonValue(JSON_FILE, [QUESTION_FIELD, ANSWER_FIELD])
+    i = 1
     for result in results:
         s = " ".join(result.values())
         strList = jiebautil.cutWords(s).split()
         if all(w in strList for w in words):
+            print(i)
             for k in result:
                 print("".join(result[k].split()))
             print("\n")
+        i += 1
 
 def saveCutFile():
     """
@@ -165,3 +168,46 @@ def searchFullText(words):
     """
     wu = WhooshUtil(JSON_FILE, [QUESTION_FIELD, ANSWER_FIELD])
     wu.search(words)
+
+
+from util import simutil
+def buildSimModel():
+    """
+    构建tf-idf模型
+    :return:
+    """
+    simutil.buildModel(JSON_FILE, [QUESTION_FIELD])
+
+def querySimString(sentence):
+    """
+    取得相似的句子
+    :param sentence:
+    :return:
+    """
+    simutil.querySimString(JSON_FILE, QUESTION_FIELD, sentence)
+
+from util import bm25util
+def bm25Search(sentence):
+    """
+    基于bm25搜索相似度最高的句子
+    :param sentence:
+    :return:
+    """
+    bm25util.buildModel(JSON_FILE, [QUESTION_FIELD], sentence)
+
+import snownlpdemo
+def snownlpDemo():
+    """
+    演示snownlp的各项功能，比如情感分析，转拼音等
+    :return:
+    """
+    snownlpdemo.runDemo()
+
+from util import pdfutil
+def pdfDemo():
+    """
+    演示pdf转换成图片，再从图片转换成pdf
+    :return:
+    """
+    pdfutil.pdf2Image("data/a.pdf")
+    pdfutil.images2Pdf("data/b.pdf", *["data/0.png", "data/1.png"])

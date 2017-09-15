@@ -77,6 +77,17 @@ def iterCutField(jsonFile, fieldNames):
         yield jiebautil.cutWords(" ".join(j.values()))
 
 
+def iterCutFieldList(jsonFile, fieldNames):
+    """
+    返回list形式的数据
+    :param jsonFile:
+    :param fieldNames:
+    :return:
+    """
+    for s in iterCutField(jsonFile, fieldNames):
+        yield s.split()
+
+
 def iterTopKeyWords(jsonFile, fieldNames, topK=5):
     """
     返回topK个关键词

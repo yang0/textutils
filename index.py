@@ -26,6 +26,11 @@ if __name__ == '__main__':
     parser.add_argument('--getRelevantWords', '-wr', metavar='关键词', nargs=1,  help='查看某个关键词的相关词汇，并且过滤掉不在jieba词典中的词，前提是word2vec已完成训练')
     parser.add_argument('--buildIndex', '-b', action='store_true', help='创建全文检索索引')
     parser.add_argument('--searchFullText', '-sf', metavar='关键词', nargs="*", help='基于全文检索的搜索')
+    parser.add_argument('--buildSimModel', '-ti', action='store_true', help='构建tf-idf, lis等模型')
+    parser.add_argument('--querySimString', '-qs', metavar='句子', nargs=1, help='搜索相似度最高的句子')
+    parser.add_argument('--bm25Search', '-bs', metavar='句子', nargs=1, help='基于bm25算法搜索相似度最高的句子，实测效果没有ifidf+lsi好')
+    parser.add_argument('--snownlpDemo', '-sd', action='store_true', help='演示snowlp工具包情感分析，汉字转拼音等功能')
+    parser.add_argument('--pdfDemo', '-pdf', action='store_true', help='演示pdf转换成图片，再从图片转换成pdf')
 
     args = parser.parse_args()
 
@@ -59,6 +64,16 @@ if __name__ == '__main__':
         demo.buildIndex()
     elif args.searchFullText:
         demo.searchFullText(args.searchFullText)
+    elif args.buildSimModel:
+        demo.buildSimModel()
+    elif args.querySimString:
+        demo.querySimString(args.querySimString[0])
+    elif args.bm25Search:
+        demo.bm25Search(args.bm25Search[0])
+    elif args.snownlpDemo:
+        demo.snownlpDemo()
+    elif args.pdfDemo:
+        demo.pdfDemo()
     else:
         parser.print_help()
 
